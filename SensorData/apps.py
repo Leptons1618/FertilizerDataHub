@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class OpcappConfig(AppConfig):
+class SensordataConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'opcapp'
+    name = 'SensorData'
