@@ -20,3 +20,4 @@ EXPOSE 8000
 
 # Define the command to run on container start
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# CMD ["bash", "-c", "python manage.py runserver 0.0.0.0:8000 & python /app/myscripts/generate_mock_data.py"]

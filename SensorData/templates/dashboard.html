@@ -52,7 +52,7 @@
                         updateLatestSensorDataList(data);
 
                         // Update the chart data
-                        chart2.data.labels = data.map(sensor => sensor.sensor_id);
+                        chart2.data.labels = data.map(sensor => sensor.timestamp);
                         chart2.data.datasets[0].data = data.map(sensor => sensor.measurement_value);
 
                         // Update the chart
@@ -105,7 +105,10 @@
                     .then(data => {
                         // Update chart data
                         chart.data.labels = data.timestamps;
-                        chart.data.datasets[0].data = data.measurement_value;
+                        chart.data.datasets[0].data = data.measurement_value.map((value, index) => ({
+                            x: index,  // Assuming the x-axis represents the index or time
+                            y: value,
+                        }));
 
                         // Update the chart
                         chart.update();
@@ -143,8 +146,16 @@
                         x: {
                             type: 'linear',
                             position: 'bottom'
+                        },
+                        y: {
+                            type: 'linear',
+                            position: 'left'
                         }
-                    }
+                    },
+                    animation: {
+                        duration: 1000,
+                        easing: 'linear',
+                    },
                 }
             });
 

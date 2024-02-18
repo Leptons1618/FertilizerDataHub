@@ -3,6 +3,7 @@ version: '3'
 services:
   web:
     build: .
+    # command: bash -c "python manage.py runserver 0.0.0.0:8000 & python /app/myscripts/generate_mock_data.py"
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/app
