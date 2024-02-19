@@ -44,17 +44,17 @@ DATABASES = {
 
 Here's a breakdown of the settings:
 
-'ENGINE': 'djongo': This tells Django to use Djongo as the database engine. Djongo translates Django ORM queries into queries that MongoDB can understand.
+`ENGINE`: 'djongo': This tells Django to use Djongo as the database engine. Djongo translates Django ORM queries into queries that MongoDB can understand.
 
-'NAME': '<database_name>': This is the name of the MongoDB database that Django will use.
+`NAME`: '<database_name>': This is the name of the MongoDB database that Django will use.
 
-'CLIENT': This is a dictionary containing the details of the MongoDB server.
+`CLIENT`: This is a dictionary containing the details of the MongoDB server.
 
-'host': 'mongodb+srv://<username>:<password>@<cluster_name>.sknzcx0.mongodb.net/?retryWrites=true&w=majority': This is the connection string for the MongoDB server. It includes the username, password, and the address of the MongoDB server.
+`host`: 'mongodb+srv://<username>:<password>@<cluster_name>.sknzcx0.mongodb.net/?retryWrites=true&w=majority': This is the connection string for the MongoDB server. It includes the username, password, and the address of the MongoDB server.
 
-'port': 27017: This is the port number on which the MongoDB server is running.
+`port`: 27017: This is the port number on which the MongoDB server is running.
 
-'username': '<username>', 'password': '<password>': These are the credentials for the MongoDB server.
+`username`: '<username>', `password`: '<password>': These are the credentials for the MongoDB server.
 
 # Create application
 ```bash
@@ -101,23 +101,30 @@ class Alarm(models.Model):
     class Meta:
         db_table = "alarm"
 ```
-Here we define now three Django models: Process, SensorData, and Alarm.
+Here we define now three Django models: `Process`, `SensorData`, and `Alarm`.
 
-Process: Represents different processes in a factory (like Mixing, Baking, Packaging). It has one field, name, which is a character field with a maximum length of 100.
+__Process__:<br>
+`Process`: Represents different processes in a factory (like Mixing, Baking, Packaging). It has one field, name, which is a character field with a maximum length of 100.<br>
 
-SensorData: Represents sensor data for each process. It has the following fields:
 
-sensor_id: An auto-incrementing integer that serves as the primary key.
-measurement_value: A floating-point number representing the measurement value from the sensor.
-timestamp: A datetime field that automatically gets set with the current date and time when a sensor data object is created.
-process: A foreign key field that creates a many-to-one relationship with the Process model. If the related Process object is deleted, all related SensorData objects will also be deleted (on_delete=models.CASCADE).
-alarm_status: A character field with a maximum length of 100.
-Alarm: Represents alarms for each process. It has the following fields:
+__SensorData__:<br>
+`SensorData`: Represents sensor data for each process. It has the following fields: <br>
 
-timestamp: A datetime field that automatically gets set with the current date and time when an alarm object is created.
-description: A text field for the description of the alarm.
-process: A foreign key field that creates a many-to-one relationship with the Process model. If the related Process object is deleted, all related Alarm objects will also be deleted (on_delete=models.CASCADE).
-alarm_status: A character field with a maximum length of 100.
+`sensor_id`: An auto-incrementing integer that serves as the primary key.
+measurement_value: A floating-point number representing the measurement value from the sensor.<br>
+`timestamp`: A datetime field that automatically gets set with the current date and time when a sensor data object is created.<br>
+`process`: A foreign key field that creates a many-to-one relationship with the Process model. If the related Process object is deleted, all related SensorData objects will also be deleted (on_delete=models.CASCADE).<br>
+`alarm_status`: A character field with a maximum length of 100.<br>
+
+__Alarm__: <br>
+`Alarm`: Represents alarms for each process. It has the following fields:
+<br>
+
+`timestamp`: A datetime field that automatically gets set with the current date and time when an alarm object is created.<br>
+`description`: A text field for the description of the alarm.<br>
+`process`: A foreign key field that creates a many-to-one relationship with the Process model. If the related Process object is deleted, all related Alarm objects will also be deleted (on_delete=models.CASCADE).<br>
+`alarm_status`: A character field with a maximum length of 100.<br>
+
 Each model also has a __str__ method that defines a human-readable representation of the model, and a Meta class that sets additional options for the model. In this case, the db_table option is used to specify the name of the database table for each model.
 
 # Create views
@@ -147,12 +154,6 @@ def get_historical_data(request, process):
 
     # Fetch historical sensor data for a specific process (limited to 10 data points for demonstration purposes)
     historical_sensor_data = SensorData.objects.filter(process=process_object).order_by('-timestamp')[:10]
-
-
-    # # # Print the historical sensor data to the console for debugging
-    # print('Process:', process)
-    # print('Fetched Data:', {'timestamps': [str(data.timestamp) for data in historical_sensor_data],
-    #                         'measurement_value': [data.measurement_value for data in historical_sensor_data]})
 
     # Prepare data for JSON response ()
     data = {
@@ -197,15 +198,15 @@ def get_latest_alarms(request):
 ```
 Now let's define four Django view functions:
 
-dashboard: Fetches the latest sensor data and alarms, as well as historical sensor data for chart visualization. It then renders a template named 'dashboard.html', passing the fetched data to the template.
+`dashboard`: Fetches the latest sensor data and alarms, as well as historical sensor data for chart visualization. It then renders a template named 'dashboard.html', passing the fetched data to the template.
 
-get_historical_data: Fetches historical sensor data for a specific process. The process name is passed as a parameter in the URL. The fetched data is returned as a JSON response.
+`get_historical_data`: Fetches historical sensor data for a specific process. The process name is passed as a parameter in the URL. The fetched data is returned as a JSON response.
 
-get_latest_sensor_data: Fetches the latest sensor data and returns it as a JSON response.
+`get_latest_sensor_data`: Fetches the latest sensor data and returns it as a JSON response.
 
-get_latest_alarms: Fetches the latest alarms and returns them as a JSON response.
+`get_latest_alarms`: Fetches the latest alarms and returns them as a JSON response.
 
-Each function uses Django's ORM to query the database. The order_by('-timestamp') part sorts the data in descending order by timestamp, and the [:n] part limits the number of results to n. The filter(process=process_object) part in get_historical_data filters the sensor data to only include data for the specified process.
+Each function uses Django's ORM to query the database. The `order_by('-timestamp')` part sorts the data in descending order by timestamp, and the `[:n]` part limits the number of results to `n`. The filter`(process=process_object)` part in get_historical_data filters the sensor data to only include data for the specified process.
 
 # Create templates
 Create a new directory named templates in the app directory. Inside the templates directory, create a new file named dashboard.html and add your html code.
@@ -468,6 +469,8 @@ docker-compose up --build
 docker-compose up
 ```
 
+___
+
 # Access the application
 Open a web browser and go to http://localhost:8000/dashboard to access the application dashboard.
 
@@ -555,8 +558,8 @@ def generate_sensor_data(num_data_points, processes, process_collection, sensor_
 
 if __name__ == "__main__":
     # Connect to the MongoDB database
-    mongo_client = MongoClient("mongodb+srv://lept0n5:talkingmoon@sandbox.sknzcx0.mongodb.net/")
-    db = mongo_client["testdb"]
+    mongo_client = MongoClient("<mongodb connection string>")
+    db = mongo_client["<database_name>"]
 
     num_data_points = 1  # The number of data points to generate
 
@@ -573,6 +576,7 @@ if __name__ == "__main__":
             print("Exiting...")
             break
 ```
+Replace the `<mongodb connection string>` and `<database_name>` with your MongoDB connection string and database name.
 
 # Run the script
 ```bash
