@@ -31,7 +31,7 @@ class Alarm(models.Model):
     alarm_status = models.CharField(max_length=100)
 
     def __str__(self):
-        return f"Alarm ID: {self.alarm_id}, Process: {self.process.name}"
+        return f"Process: {self.process.name}, Alarm: {self.description}"
 
     class Meta:
         db_table = "alarm"
