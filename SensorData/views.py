@@ -6,7 +6,7 @@ def dashboard(request):
     # Fetch latest sensor data and alarms
     latest_sensor_data = SensorData.objects.all().order_by('-timestamp')[:10]
     latest_alarms = Alarm.objects.all().order_by('-timestamp')[:5]
-
+    
     # Fetch historical sensor data for chart visualization
     historical_sensor_data = SensorData.objects.all().order_by('-timestamp')[:10]
 
@@ -51,6 +51,8 @@ def get_latest_sensor_data(request):
         }
         for sensor_data in latest_sensor_data
     ]
+    
+    # print(data)
 
     return JsonResponse(data, safe=False)
 
